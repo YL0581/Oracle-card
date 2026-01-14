@@ -6,18 +6,18 @@
     <title>三才星引 - 為你紫點迷津</title>
     <style>
         :root {
-            --bg-color: #f2f2f2; /* 水墨紙本底色 */
+            --bg-color: #f2f2f2; 
             --ink-black: #1a1a1a;
-            --gold-leaf: #9a804d; /* 復古金 */
+            --gold-leaf: #9a804d; 
             --text-dark: #2c2c2c;
         }
 
         body {
             background-color: var(--bg-color);
-            /* 模擬簡約水墨山水背景 */
+            /* 這裡已加入水墨山水背景的設計邏輯 */
             background-image: 
-                radial-gradient(at 50% 100%, rgba(200,200,200,0.3) 0%, transparent 70%),
-                linear-gradient(to bottom, transparent 60%, rgba(180,180,180,0.1) 100%);
+                linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0.2)),
+                url('https://www.transparenttextures.com/patterns/pinstriped-suit.png'); /* 模擬紙張質感 */
             color: var(--text-dark);
             font-family: "Noto Serif TC", serif;
             display: flex;
@@ -28,91 +28,61 @@
             padding: 20px;
         }
 
-        /* 墨跡暈染背景效果 */
+        /* 頂部水墨裝飾 */
         body::before {
             content: "";
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/ink-paper.png');
-            opacity: 0.5;
+            top: 0; left: 0; width: 100%; height: 300px;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.05), transparent);
+            pointer-events: none;
             z-index: -1;
         }
 
-        h1 { color: var(--ink-black); letter-spacing: 10px; margin-top: 50px; border-bottom: 2px solid var(--ink-black); padding-bottom: 10px; }
+        h1 { color: var(--ink-black); letter-spacing: 10px; margin-top: 50px; font-weight: 900; }
         .subtitle { color: #666; margin-bottom: 50px; letter-spacing: 3px; }
 
         .spread-container { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; width: 100%; max-width: 1100px; }
         .card-wrapper { display: flex; flex-direction: column; align-items: center; }
-        .pos-label { margin-bottom: 20px; color: var(--ink-black); font-weight: bold; font-size: 1.1rem; }
+        .pos-label { margin-bottom: 20px; color: var(--ink-black); font-weight: bold; border-bottom: 1px solid #ccc; }
 
         .card { width: 200px; height: 355px; position: relative; transform-style: preserve-3d; transition: transform 1.2s; cursor: pointer; }
         .card.flipped { transform: rotateY(180deg); }
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 5px; border: 1px solid rgba(0,0,0,0.1); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 5px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         
-        /* 卡片背面：水墨太極意象 */
+        /* 卡片背面：水墨太極圖案 */
         .card-back { 
             background: #fff;
             display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
+            border: 1px solid #ddd;
         }
         .card-back::after {
-            content: "☯";
-            font-size: 100px;
-            color: rgba(0,0,0,0.05);
-            filter: blur(2px);
-        }
-        .card-back::before {
-            content: "";
-            position: absolute;
-            width: 120%; height: 120%;
-            background: radial-gradient(circle, rgba(0,0,0,0.05) 0%, transparent 70%);
+            content: "☯"; /* 這裡建議您上傳太極圖到 images/back.png 並替換此處 */
+            font-size: 80px;
+            color: rgba(0,0,0,0.1);
+            filter: blur(1px);
         }
 
-        .card-front { background-size: cover; transform: rotateY(180deg); background-color: #fff; }
+        .card-front { background-size: cover; transform: rotateY(180deg); background-color: #fff; border: 1px solid #eee; }
 
         .action-btn { 
-            background: var(--ink-black); 
-            color: #fff; 
-            border: none; 
-            padding: 18px 70px; 
-            margin-top: 60px; 
-            cursor: pointer; 
-            font-size: 1.1rem; 
-            letter-spacing: 5px;
-            transition: 0.3s;
+            background: var(--ink-black); color: #fff; border: none; padding: 18px 70px; 
+            margin-top: 60px; cursor: pointer; font-size: 1.1rem; letter-spacing: 5px; transition: 0.3s;
         }
-        .action-btn:hover { opacity: 0.8; transform: translateY(-3px); }
+        .action-btn:hover { background: #444; }
 
         .result-panel { 
-            display: none; 
-            max-width: 850px; 
-            width: 90%; 
-            margin-top: 60px; 
-            padding: 50px; 
-            background: #fff; 
-            border: 1px solid #ddd;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+            display: none; max-width: 850px; width: 95%; margin-top: 60px; padding: 40px; 
+            background: rgba(255,255,255,0.95); border-top: 3px solid var(--ink-black);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
         }
 
-        .res-section { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        .res-section h3 { color: var(--ink-black); margin-bottom: 15px; display: flex; align-items: center; }
-        .res-section h3::before { content: "●"; margin-right: 10px; font-size: 0.8rem; }
-        .res-section p { line-height: 2; color: #444; font-size: 1.05rem; }
+        .res-section { margin-bottom: 30px; }
+        .res-section h3 { color: var(--ink-black); border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .res-section p { line-height: 1.8; color: #444; }
 
         .summary-box { 
-            margin-top: 40px; 
-            background: #f9f9f9; 
-            padding: 30px; 
-            border-radius: 4px;
-            line-height: 2.2;
-        }
-        .summary-title { 
-            display: block; 
-            font-weight: bold; 
-            font-size: 1.2rem; 
-            color: var(--ink-black); 
-            margin-bottom: 15px; 
-            text-align: center;
+            margin-top: 40px; background: #fdfdfd; padding: 25px; border: 1px dashed #ccc; 
+            line-height: 2; color: #333;
         }
     </style>
 </head>
@@ -131,61 +101,47 @@
 
     <div id="result-panel" class="result-panel">
         <div id="result-content"></div>
-        <center><button onclick="location.reload()" style="background:none; border:1px solid #999; color:#666; padding:10px 40px; margin-top:50px; cursor:pointer;">重新問卜</button></center>
+        <center><button onclick="location.reload()" style="background:none; border:none; color:#999; cursor:pointer; margin-top:30px;">重新啟程</button></center>
     </div>
 
     <script>
         const deck = [
-            { id: 1, name: "紫微星", five: "土", hint: "扛起責任", msg: "之前的生活可能讓你覺得有些沉重。現在是你需要展現肩膀的時候，大方地面對困難，並對身邊的人多一點包容，大家會更願意聽你的。" },
-            { id: 2, name: "天機星", five: "木", hint: "動腦應變", msg: "最近腦筋轉得飛快，但也容易想太多。不需要事事追求完美，保持靈活的心態，你會發現機會就藏在那些變動的小細節裡。" },
-            { id: 3, name: "太陽星", five: "火", hint: "大方分享", msg: "現在是一個適合走出去、讓大家看見你的時機。別把好點子藏起來，多跟人交流和分享，你的影響力會比你想像中更大。" },
-            { id: 4, name: "武曲星", five: "金", hint: "腳踏實地", msg: "少說空話，直接去做。現在不需要華麗的包裝，最紮實的努力就能換來最好的回報。專注在眼前的任務上就對了。" },
-            { id: 5, name: "天同星", five: "水", hint: "享受生活", msg: "給自己一點喘息的空間。不需要每天都緊繃著，試著放鬆心情，順其自然，很多原本卡住的事情反而會迎刃而解。" },
-            { id: 6, name: "廉貞星", five: "火", hint: "冷靜沉穩", msg: "這是一段適合沈澱和觀察的時期。表現出你的穩重和專業，不急著在第一時間做決定，讓子彈飛一會兒，結果會更好。" },
-            { id: 7, name: "天府星", five: "土", hint: "守成打底", msg: "現在不急著開疆闢土，而是要把現有的東西顧好。把基礎打穩，存好實力，穩定的發展對你目前最有幫助。" },
-            { id: 8, name: "太陰星", five: "水", hint: "細心觀察", msg: "保持低調與優雅。多聽、多看、少說。身邊親近的人或女性長輩可能會帶給你意想不到的啟發或幫助。" },
-            { id: 9, name: "貪狼星", five: "木", hint: "鎖定目標", msg: "你的點子很多，欲望也很多。但如果什麼都想要，最後可能什麼都抓不到。先選一件最想達成的事，集中火力去衝。" },
-            { id: 10, name: "巨門星", five: "水", hint: "沈默是金", msg: "這段時間多做事、少說話。不要被外界的評價左右，用最後的成果來證明自己的實力，這比爭辯更有力量。" },
-            { id: 11, name: "天相星", five: "水", hint: "熱心助人", msg: "發揮你的專業，去當那個幫大家解決問題的人。在服務別人的過程中，你的重要性會自然而然被大家認可。" },
-            { id: 12, name: "天梁星", five: "土", hint: "積德行善", msg: "你現在很有照顧人的能力。幫忙協調或解決別人的麻煩，雖然看起來在吃虧，但其實正在為你自己累積很大的好運。" },
-            { id: 13, name: "七殺星", five: "金", hint: "勇敢衝鋒", msg: "這是一段比較辛苦的階段。雖然挑戰很大，但只要拿出勇氣衝過去，新局面就在後面等著你，別退縮。" },
-            { id: 14, name: "破軍星", five: "水", hint: "大膽革新", msg: "是時候丟掉那些舊的包袱了。先打破現在的局面，才會有新的可能。變動雖然不安，但它是為了帶你去更好的地方。" },
-            { id: 15, name: "左輔星", five: "土", hint: "團隊合作", msg: "一個人走得快，一群人走得遠。別總想著自己扛，多尋求身邊夥伴的協助，大家的智慧會讓事情更順利。" },
-            { id: 16, name: "右弼星", five: "水", hint: "靈活轉彎", msg: "遇到困難別死磕。靈活一點，試試不同的方法，最近會有一些意想不到的小貴人出現，帶給你新的思維。" },
-            { id: 17, name: "文昌星", five: "金", hint: "智慧開展", msg: "發揮你的長才，靠頭腦吃飯。現在是展現智慧的好時機，多學習、多表達，你的表現會讓人印象深刻。" },
-            { id: 18, name: "文曲星", five: "水", hint: "直覺引路", msg: "相信你的第一直覺。這段時間跟藝術、創意或感性有關的事情對你很有利。放鬆心情去創作或生活吧。" },
-            { id: 19, name: "天魁星", five: "火", hint: "貴人提攜", msg: "會有經驗豐富的前輩或長者拉你一把。大膽展現你的優點，機會就在那裡，只要你伸手去拿。" },
-            { id: 20, name: "天鉞星", five: "火", hint: "細心尋找", msg: "看似沒路的時候，其實出口就藏在旁邊。只要你靜下心來細細觀察，就會發現隱藏的生機。" },
-            { id: 21, name: "擎羊星", five: "金", hint: "以柔克剛", msg: "壓力有點大，感覺大家都想爭個輸贏。不需要跟人硬碰硬，換個柔軟的方式應對，事情反而會化解。" },
-            { id: 22, name: "陀羅星", five: "金", hint: "耐心等待", msg: "進展感覺有點慢，好像在原地踏步。別急著想要快，現在需要的是耐磨的性子，時間會幫你解決一切。" },
-            { id: 23, name: "地劫星", five: "火", hint: "看淡得失", msg: "可能會有些預期外的小插曲，但別太糾結。這只是一個過濾的過程，幫你把不適合的東西拿走。" },
-            { id: 24, name: "地空星", five: "火", hint: "心靈自由", msg: "比起物質的收獲，現在心靈的平靜更重要。放下一定要得到的念頭，你會發現其實自己擁有的已經很多。" },
-            { id: 25, name: "火星", five: "火", hint: "果斷行動", msg: "節奏突然變快了！事情會來得很快，你需要馬上做決定。保持專注，但也要找時間給自己充充電。" },
-            { id: 26, name: "鈴星", five: "火", hint: "沉穩應對", msg: "身邊或許有些小雜音或流言。別受影響，安安靜靜做你的事，目前的穩健就是你最大的武器。" },
-            { id: 27, name: "天馬星", five: "火", hint: "積極跑動", msg: "別老待在同一個地方。多出門走走，主動去聯絡新的機會，你會在變動中找到新的出路。" },
-            { id: 28, name: "祿存星", five: "土", hint: "穩健累積", msg: "現在的環境正默默地支持著你。不需要急著做大變動，穩定地積累你的能量，財富和運氣都在累積中。" },
-            { id: 29, name: "化祿", five: "土", hint: "好運來臨", msg: "恭喜你！好事正在發生，人際或金錢方面都有好消息。把這份喜悅分享給別人，你的好運會維持更久。" },
-            { id: 30, name: "化權", five: "木", hint: "展現氣場", msg: "該你展現影響力的時候到了。不要害怕提出自己的看法，爭取主導權，大家現在會願意跟隨你。" },
-            { id: 31, name: "化科", five: "水", hint: "形象加持", msg: "大家現在對你的印象很好。多注意自己的言行舉止，你的氣質和口碑會成為你未來發展的重要資源。" },
-            { id: 32, name: "化忌", five: "水", hint: "先休一下", msg: "感覺有點不順？那是提醒你該停下來思考了。不需要硬闖，等心情平靜了、路看清了再走也不遲。" }
+            { id: 1, name: "紫微星", hint: "扛起責任", msg: "之前壓力大，現在需展現肩膀解決問題。對人溫柔點，事情更好辦。" },
+            { id: 2, name: "天機星", hint: "多動腦筋", msg: "腦子轉得快但別鑽牛角尖。保持靈活，轉機就在變動中。" },
+            { id: 3, name: "太陽星", hint: "大方表現", msg: "適合露臉分享。別害羞，多跟人交流，路會越走越寬。" },
+            { id: 4, name: "武曲星", hint: "直接去做", msg: "少說空話直接動手。專注成果，務實就是最好的策略。" },
+            { id: 5, name: "天同星", hint: "放鬆一點", msg: "別逼太緊，順著感覺走。心情輕鬆，好運自然會找上你。" },
+            { id: 6, name: "廉貞星", hint: "冷靜觀察", msg: "適合先看清楚再動。展現專業穩重，別人會更信你。" },
+            { id: 7, name: "天府星", hint: "打穩基礎", msg: "適合守成顧好現有的。穩定就是進步，別急著亂跑。" },
+            { id: 8, name: "太陰星", hint: "細心體察", msg: "低調也好。多聽多看，身邊女性長輩可能是大貴人。" },
+            { id: 9, name: "貪狼星", hint: "集中目標", msg: "想做的事多但別貪心。選最重要的衝，力氣才不會分散。" },
+            { id: 10, name: "巨門星", hint: "多聽少說", msg: "多做事少說話。用結果讓那些評論你的人心服口服。" },
+            { id: 11, name: "天相星", hint: "熱心幫忙", msg: "拿出專業協調問題，你的價值很快就會被看見。" },
+            { id: 12, name: "天梁星", hint: "累積福報", msg: "幫人解決麻煩其實是在幫自己累積好運，別怕吃虧。" },
+            { id: 13, name: "七殺星", hint: "勇敢衝刺", msg: "雖然辛苦但衝過去就是新天地，勇敢面對改變。" },
+            { id: 14, name: "破軍星", hint: "換個樣子", msg: "丟掉舊習慣。打破現狀才有新機會，變動是為了更好。" },
+            { id: 15, name: "左輔星", hint: "找人幫忙", msg: "別自己扛。跟夥伴合作，大家一起動手效果翻倍。" },
+            { id: 16, name: "右弼星", hint: "保持靈活", msg: "靈活點！意想不到的小幫手會出現，轉機就在身邊。" },
+            { id: 17, name: "文昌星", hint: "展現聰明", msg: "靠專業展現才華。多溝通交流，現在表現會非常棒。" },
+            { id: 18, name: "文曲星", hint: "跟著感覺", msg: "直覺很準。做點有美感的事，生活會發現驚喜。" },
+            { id: 19, name: "天魁星", hint: "遇到貴人", msg: "有前輩會拉你一把。大膽展現優點，機會就在前方。" },
+            { id: 20, name: "天鉞星", hint: "找到出口", msg: "看似沒路時細心觀察，就能找到隱藏的出路。" },
+            { id: 21, name: "擎羊星", hint: "別硬碰硬", msg: "壓力大。別跟人吵，先退一步想清楚再衝會更有力。" },
+            { id: 22, name: "陀羅星", hint: "需要耐心", msg: "進度卡卡。別急，時間會幫你磨掉那些討厭的問題。" },
+            { id: 23, name: "地劫星", hint: "放平心態", msg: "有小插曲別放在心上。這是在過濾不適合的人事物。" },
+            { id: 24, name: "地空星", hint: "看淡得失", msg: "平靜最重要。強求不來就換個角度，會輕鬆很多。" },
+            { id: 25, name: "火星", hint: "反應快點", msg: "節奏變快！反應要快，但也要記得找時間休息。" },
+            { id: 26, name: "鈴星", hint: "保持冷靜", msg: "冷靜應對流言。低調做事，穩定就是最好的狀態。" },
+            { id: 27, name: "天馬星", hint: "多跑動", msg: "越動越好運！多出門聯絡，機會就在動起來的時候。" },
+            { id: 28, name: "祿存星", hint: "安穩蓄力", msg: "環境正幫你積累實力。穩住就好，別急著大改。" },
+            { id: 29, name: "化祿", hint: "好事發生", msg: "財運人緣變好。大方分享喜悅，收穫會更多。" },
+            { id: 30, name: "化權", hint: "爭取主權", msg: "該出頭了。勇敢說出想法爭取主導，大家會聽你的。" },
+            { id: 31, name: "化科", hint: "形象加分", msg: "評價變好。注意形象言行，這會成為未來的助力。" },
+            { id: 32, name: "化忌", hint: "先停一下", msg: "不順手就停下思考。等路看清了再走，別硬衝。" }
         ];
-
-        function getFiveStatus() {
-            const now = new Date();
-            const m = now.getMonth() + 1;
-            const d = now.getDate();
-            // 國曆1/13精準判定為四季(土旺)
-            const isEarth = (m==1 && d>=17) || (m==2 && d<=3) || (m==4 && d>=17) || (m==5 && d<=4) || (m==7 && d>=19) || (m==8 && d<=6) || (m==10 && d>=20) || (m==11 && d<=6) || (m==1 && d<=16);
-            if (isEarth) return { label: "現在這個時令" };
-            if (m >= 2 && m <= 4) return { label: "春季" };
-            if (m >= 5 && m <= 7) return { label: "夏季" };
-            if (m >= 8 && m <= 10) return { label: "秋季" };
-            return { label: "冬季" };
-        }
 
         function executeOracle() {
             document.getElementById('draw-btn').style.display = 'none';
-            const context = getFiveStatus();
             const shuffled = [...deck].sort(() => 0.5 - Math.random());
             const selected = shuffled.slice(0, 3);
             const positions = ["過去", "現在", "未來"];
@@ -210,15 +166,13 @@
                 resultContent.appendChild(section);
             });
 
-            // 終極大白話總結
             const summary = document.createElement('div');
             summary.className = 'summary-box';
-            let summaryText = `<span class="summary-title">✨ 給你的建議</span>`;
-            summaryText += `你之前可能一直在「${selected[0].hint}」，而這段時間你正處於「${selected[1].hint}」的關鍵期。`;
-            summaryText += `現在的環境對你來說很有利，只要你願意穩紮穩打地去做，不需要急著看到結果。`;
-            summaryText += `接下來，你會漸漸往「${selected[2].hint}」的方向發展。簡單來說，現在只要做好該做的事，後面的路就會越來越好走了！`;
-            
-            summary.innerHTML = `<p>${summaryText}</p>`;
+            summary.innerHTML = `
+                <b>✨ 給你的建議：</b><br>
+                你之前的狀況主要是「${selected[0].hint}」，而現在進入了「${selected[1].hint}」的階段。
+                接下來會往「${selected[2].hint}」的方向發展。現在穩住，路就清晰了！
+            `;
             resultContent.appendChild(summary);
 
             setTimeout(() => {
